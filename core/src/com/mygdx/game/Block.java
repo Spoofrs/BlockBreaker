@@ -5,6 +5,8 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 
+import java.util.Iterator;
+
 public class Block {
 
     int height, width, x, y;
@@ -21,13 +23,12 @@ public class Block {
     }
 
     public void checkCollision(Circle circleListener, Ball ball) {
-        if (!Constants.blocks.isEmpty()) {
-            for (Rectangle blockListener : Constants.blocks.values()) {
-                if (Intersector.overlaps(circleListener, blockListener)) {
-                    System.out.println("BLOCK TO DELETE: " + blockListener);
-                    Constants.blocks.remove(blockListener);
-                    ball.changeYDirection();
-                }
+        Iterator<Rectangle> iterator = Constants.blocks.values().iterator();
+        while (iterator.hasNext()) {
+            Rectangle blockListener = iterator.next();
+            if (Intersector.overlaps(circleListener, blockListener)) {
+                iterator.remove();
+                ball.changeYDirection();
             }
         }
     }

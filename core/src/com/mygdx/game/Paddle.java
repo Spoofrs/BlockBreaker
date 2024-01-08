@@ -25,9 +25,9 @@ public class Paddle {
         //this.y = Gdx.graphics.getHeight() - Gdx.input.getY(); Was used to debug ball to paddle collision
     }
 
-    public void drawPaddle(ShapeRenderer shape, Rectangle paddleListener) {
+    public void drawPaddle(ShapeRenderer shape, Rectangle rectangleListener) {
         shape.rect(x, y, width, height);
-        paddleListener.set(x, y, width, height);
+        rectangleListener.set(x, y, width, height);
 
     }
 }

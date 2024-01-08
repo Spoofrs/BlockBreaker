@@ -24,6 +24,7 @@ public class Ball {
         x += xSpeed;
         y += ySpeed;
 
+        //Handles the boundaries of the game
         if (x < size || x > Gdx.graphics.getWidth() - size) {
             xSpeed = -xSpeed;
         }
@@ -36,18 +37,28 @@ public class Ball {
         ySpeed = -ySpeed;
     }
 
-    public void checkCollision(Circle ball, Rectangle blockListener) {
-        if(Intersector.overlaps(ball, blockListener)) {
+    public void checkCollision(Circle ball, Rectangle rectangleListener) { //check if the ball collides with the paddle
+        if (Intersector.overlaps(ball, rectangleListener)) {
             changeYDirection();
-        }
-        else {
+            changeXDirection(ball, rectangleListener);
+        } else {
             color = Color.WHITE;
         }
     }
 
-    public void draw(ShapeRenderer shape, Circle ballListener) {
+    public void changeXDirection(Circle ball, Rectangle rectangleListener) {
+        // if (ball.x > rectangleListener.x + rectangleListener.width / 2) {
+        //     System.out.println("HIT THIS SIDE, BALL X: "+ball.x+" PADDLE X: "+rectangleListener.x
+        //     );
+        // @TODO figure out how you want to create the paddle logic
+        xSpeed = -xSpeed;
+        //  }
+
+    }
+
+    public void draw(ShapeRenderer shape, Circle circleListener) {
         shape.setColor(color);
         shape.circle(x, y, size);
-        ballListener.set(x, y, size);
+        circleListener.set(x, y, size);
     }
 }
