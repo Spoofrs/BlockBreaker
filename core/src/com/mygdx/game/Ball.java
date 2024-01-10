@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
@@ -20,7 +21,7 @@ public class Ball {
         this.ySpeed = ySpeed;
     }
 
-    public void update() {
+    public void checkScreenBoundaries() {
         x += xSpeed;
         y += ySpeed;
 
@@ -56,9 +57,10 @@ public class Ball {
 
     }
 
-    public void draw(ShapeRenderer shape, Circle circleListener) {
-        shape.setColor(color);
-        shape.circle(x, y, size);
+    public void update(Circle circleListener, SpriteBatch batch, Rectangle rectangleListener) {
+        checkScreenBoundaries();
         circleListener.set(x, y, size);
+        checkCollision(circleListener, rectangleListener);
+        batch.draw(Constants.ballTexture, x - size, y - size);
     }
 }

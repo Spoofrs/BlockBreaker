@@ -1,7 +1,8 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
 
@@ -11,6 +12,7 @@ public class Paddle {
     int height;
     int x;
     int y;
+    public Texture paddleTexture;
 
 
     public Paddle(int width, int height, int x, int y) {
@@ -20,14 +22,18 @@ public class Paddle {
         this.y = y;
     }
 
-    public void update() {
+    public void updateLocation() {
         this.x =  Gdx.input.getX() - width / 2;
-        //this.y = Gdx.graphics.getHeight() - Gdx.input.getY(); Was used to debug ball to paddle collision
     }
 
-    public void drawPaddle(ShapeRenderer shape, Rectangle rectangleListener) {
-        shape.rect(x, y, width, height);
-        rectangleListener.set(x, y, width, height);
+    public void initPaddleTexture() {
+        paddleTexture = new Texture("paddle_sprite.png");
+    }
 
+
+    public void update(Rectangle rectangleListener, SpriteBatch batch) {
+        updateLocation();
+        rectangleListener.set(x, y, width, height);
+        batch.draw(paddleTexture, x, y);
     }
 }
