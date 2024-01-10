@@ -9,11 +9,13 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 
 
-public class MyGdxGame extends ApplicationAdapter {
+public class BlockBreakerGame extends ApplicationAdapter {
 
+    float gameclock;
     SpriteBatch batch;
     ShapeRenderer shape;
     Ball ball;
+    Explosion explosion = new Explosion();
     Block block = new Block();
     Paddle paddle = new Paddle(120, 10, 50, 20);
     Circle circleListener;
@@ -21,37 +23,40 @@ public class MyGdxGame extends ApplicationAdapter {
 
     @Override
     public void create() {
+        //Init classes
         batch = new SpriteBatch();
         shape = new ShapeRenderer();
         circleListener = new Circle();
         rectangleListener = new Rectangle();
+
+        block.placeBlocks();
+
+        //Init objects
         paddle.initPaddleTexture();
         ball = new Ball(100, 100, 10, 3, 4);
-        for (int y = Gdx.graphics.getHeight() / 2; y < Gdx.graphics.getHeight(); y += 40 + 10) {
-            for (int x = 0; x < Gdx.graphics.getWidth(); x += 40 + 10) {
-                Constants.blocks.put(new Block(40, 40, x, y), new Rectangle(x, y, 40, 40));
-            }
-        }
     }
 
     @Override
     public void render() {
+        //Game clock
+        gameclock += Gdx.graphics.getDeltaTime();
 
         //Init Shape renderer
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         shape.begin(ShapeRenderer.ShapeType.Filled);
 
-        //Block
+        //Start Spritebatch
         batch.begin();
-        for (Block block : Constants.blocks.keySet()) {
-                batch.draw(Constants.blockTexture, block.x, block.y);
-        }
-        if (block != null) {
-            block.checkCollision(circleListener, ball);
-        }
+
+        //Explosion animation
+        explosion.handleExplosionList(gameclock, batch);
+
+        //Blocks
+        block.draw(batch);
+        block.checkCollision(circleListener, ball, gameclock, explosion);
 
         //Paddle
-        paddle.update(rectangleListener, batch);;
+        paddle.update(rectangleListener, batch);
 
         //Ball
         ball.update(circleListener, batch, rectangleListener);
@@ -60,6 +65,5 @@ public class MyGdxGame extends ApplicationAdapter {
         batch.end();
         shape.end();
     }
-
 
 }

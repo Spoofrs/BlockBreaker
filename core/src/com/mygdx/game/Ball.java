@@ -2,8 +2,8 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
@@ -58,9 +58,10 @@ public class Ball {
     }
 
     public void update(Circle circleListener, SpriteBatch batch, Rectangle rectangleListener) {
+        Texture ballTexture = new Texture("ball_sprite.png");
         checkScreenBoundaries();
         circleListener.set(x, y, size);
         checkCollision(circleListener, rectangleListener);
-        batch.draw(Constants.ballTexture, x - size, y - size);
+        batch.draw(ballTexture, x - size, y - size);
     }
 }
