@@ -48,13 +48,12 @@ public class Ball {
     }
 
     public void changeXDirection(Circle ball, Rectangle rectangleListener) {
-        // if (ball.x > rectangleListener.x + rectangleListener.width / 2) {
-        //     System.out.println("HIT THIS SIDE, BALL X: "+ball.x+" PADDLE X: "+rectangleListener.x
-        //     );
-        // @TODO figure out how you want to create the paddle logic
-        xSpeed = -xSpeed;
-        //  }
-
+        int paddlecenter = (int) (rectangleListener.x + rectangleListener.width /2);
+        if ((int) (ball.x - paddlecenter) / 5 == 0) {
+            return;
+        }
+        xSpeed = (int) (ball.x - paddlecenter) / 5;
+        System.out.println("xspeed = "+xSpeed);
     }
 
     public void update(Circle circleListener, SpriteBatch batch, Rectangle rectangleListener) {

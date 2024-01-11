@@ -11,7 +11,7 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class BlockBreakerGame extends ApplicationAdapter {
 
-    float gameclock;
+    public static float gameclock;
     SpriteBatch batch;
     ShapeRenderer shape;
     Ball ball;
@@ -49,11 +49,11 @@ public class BlockBreakerGame extends ApplicationAdapter {
         batch.begin();
 
         //Explosion animation
-        explosion.handleExplosionList(gameclock, batch);
+        explosion.handleExplosionList(batch);
 
         //Blocks
         block.draw(batch);
-        block.checkCollision(circleListener, ball, gameclock, explosion);
+        block.checkCollision(circleListener, ball);
 
         //Paddle
         paddle.update(rectangleListener, batch);

@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -10,22 +11,22 @@ import java.util.Iterator;
 
 public class Explosion {
 
-    ArrayList<Explosion> explosionlist = new ArrayList<>();
+    public static ArrayList<Explosion> explosionlist = new ArrayList<>();
 
     int x, y;
     Texture img;
     TextureRegion[] animationFrames;
-    Animation animation;
-    float deltatime;
+    Animation<TextureRegion> animation;
+    float animationTime;
 
     public Explosion() {
 
     }
 
-    public Explosion(int x, int y, float gameclock) {
+    public Explosion(int x, int y) {
         this.x = x;
         this.y = y;
-        this.deltatime = gameclock;
+        animationTime = 0;
     }
 
     public void init() {
@@ -40,23 +41,25 @@ public class Explosion {
             animationFrames[index++] = tmpFrames[0][i];
         }
 
-        animation = new Animation<>(0.025f, animationFrames);
+        animation = new Animation<TextureRegion>(0.025f, animationFrames);
     }
 
-    public void getExplosion(int x, int y, float deltatime, SpriteBatch batch) {
-        TextureRegion currentFrame = (TextureRegion) animation.getKeyFrame(deltatime, true);
+    public void getExplosion(int x, int y, SpriteBatch batch, Explosion explosion) {
+        explosion.animationTime += Gdx.graphics.getDeltaTime();
+        TextureRegion currentFrame = animation.getKeyFrame(explosion.animationTime, false);
         batch.draw(currentFrame, x, y, 50, 50);
     }
 
-    public void handleExplosionList(float gameclock, SpriteBatch batch) {
+    public void handleExplosionList(SpriteBatch batch) {
         Iterator<Explosion> iterator = explosionlist.listIterator();
         while (iterator.hasNext()) {
             Explosion explosionListener = iterator.next();
             if (explosionListener != null) {
                 init();
-                getExplosion(explosionListener.x, explosionListener.y, gameclock, batch);
-                if (explosionListener.deltatime + 0.25f < gameclock)
+                getExplosion(explosionListener.x, explosionListener.y, batch, explosionListener);
+                if (animation.isAnimationFinished(explosionListener.animationTime)) {
                     iterator.remove();
+                }
             }
         }
     }

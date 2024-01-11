@@ -25,13 +25,13 @@ public class Block {
         this.y = y;
     }
 
-    public void checkCollision(Circle circleListener, Ball ball, float gameclock, Explosion explosion) {
+    public void checkCollision(Circle circleListener, Ball ball) {
         Iterator<Rectangle> iterator = blocks.values().iterator();
         while (iterator.hasNext()) {
             Rectangle blockListener = iterator.next();
             if (Intersector.overlaps(circleListener, blockListener)) {
                 iterator.remove();
-                explosion.explosionlist.add(new Explosion((int) blockListener.x, (int) blockListener.y, gameclock));
+                Explosion.explosionlist.add(new Explosion((int) blockListener.x, (int) blockListener.y));
                 ball.changeYDirection();
             }
         }
@@ -44,7 +44,6 @@ public class Block {
             }
         }
     }
-
 
     public void draw(SpriteBatch batch) {
         Texture blockTexture = new Texture("block_sprite.png");
