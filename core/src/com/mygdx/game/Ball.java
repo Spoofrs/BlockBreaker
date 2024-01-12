@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class Ball {
     int x, y, size, xSpeed, ySpeed;
+    boolean canShoot;
     SoundHandler ball_paddle_collision_sfx = new SoundHandler("paddle_hit.ogg");
 
     public Ball(int x, int y, int size, int xSpeed, int ySpeed) {
@@ -41,6 +42,7 @@ public class Ball {
         if (Intersector.overlaps(ball, rectangleListener)) {
             changeYDirection();
             changeXDirection(ball, rectangleListener, false);
+            canShoot = true;
             ball_paddle_collision_sfx.playSound(ball_paddle_collision_sfx.sound, 1.0f);
         }
     }

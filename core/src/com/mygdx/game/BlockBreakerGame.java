@@ -12,28 +12,30 @@ import com.badlogic.gdx.math.Rectangle;
 public class BlockBreakerGame extends ApplicationAdapter {
 
     public static float gameclock;
+    GameInputs gameInputs;
     SpriteBatch batch;
-    ShapeRenderer shape;
+    ShapeRenderer renderer;
     Ball ball;
     Explosion explosion = new Explosion();
     Block block = new Block();
     Paddle paddle = new Paddle(120, 10, 50, 20);
+    Laser laser = new Laser();
     Circle circleListener;
     Rectangle rectangleListener;
     SoundHandler game_music;
 
     @Override
     public void create() {
-        //Init classes
+        gameInputs = new GameInputs();
+        Gdx.input.setInputProcessor(gameInputs);
+        renderer = new ShapeRenderer();
         batch = new SpriteBatch();
-        shape = new ShapeRenderer();
         circleListener = new Circle();
         rectangleListener = new Rectangle();
         game_music = new SoundHandler("glitch.ogg");
 
         block.placeBlocks();
 
-        //Init objects
         paddle.initPaddleTexture();
         ball = new Ball(100, 100, 10, 3, 4);
         game_music.loopSound(game_music.sound, 0.75f);
@@ -46,10 +48,13 @@ public class BlockBreakerGame extends ApplicationAdapter {
 
         //Init Shape renderer
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        shape.begin(ShapeRenderer.ShapeType.Filled);
+        renderer.begin(ShapeRenderer.ShapeType.Filled);
 
         //Start Spritebatch
         batch.begin();
+
+        //Laser handling
+        laser.shootLaser(renderer, ball, gameInputs, paddle);
 
         //Explosion animation
         explosion.handleExplosionList(batch);
@@ -66,7 +71,7 @@ public class BlockBreakerGame extends ApplicationAdapter {
 
         //End Shape renderer / SpriteBatch
         batch.end();
-        shape.end();
+        renderer.end();
     }
 
 }
