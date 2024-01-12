@@ -29,7 +29,7 @@ public class Explosion {
         animationTime = 0;
     }
 
-    public void init() {
+    public void initExplosionTexture() {
         img = new Texture("explosion_sheet.png");
 
         TextureRegion[][] tmpFrames = TextureRegion.split(img, 96, 96);
@@ -55,7 +55,7 @@ public class Explosion {
         while (iterator.hasNext()) {
             Explosion explosionListener = iterator.next();
             if (explosionListener != null) {
-                init();
+                initExplosionTexture();
                 getExplosion(explosionListener.x, explosionListener.y, batch, explosionListener);
                 if (animation.isAnimationFinished(explosionListener.animationTime)) {
                     iterator.remove();

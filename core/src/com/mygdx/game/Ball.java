@@ -1,7 +1,6 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Circle;
@@ -11,7 +10,7 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class Ball {
     int x, y, size, xSpeed, ySpeed;
-    Color color = Color.WHITE;
+    SoundHandler ball_paddle_collision_sfx = new SoundHandler("paddle_hit.ogg");
 
     public Ball(int x, int y, int size, int xSpeed, int ySpeed) {
         this.x = x;
@@ -41,19 +40,20 @@ public class Ball {
     public void checkCollision(Circle ball, Rectangle rectangleListener) { //check if the ball collides with the paddle
         if (Intersector.overlaps(ball, rectangleListener)) {
             changeYDirection();
-            changeXDirection(ball, rectangleListener);
-        } else {
-            color = Color.WHITE;
+            changeXDirection(ball, rectangleListener, false);
+            ball_paddle_collision_sfx.playSound(ball_paddle_collision_sfx.sound, 1.0f);
         }
     }
 
-    public void changeXDirection(Circle ball, Rectangle rectangleListener) {
-        int paddlecenter = (int) (rectangleListener.x + rectangleListener.width /2);
+    public void changeXDirection(Circle ball, Rectangle rectangleListener, boolean blockCollision) {
+        if (blockCollision)
+            return;
+        int paddlecenter = (int) (rectangleListener.x + rectangleListener.width / 2);
         if ((int) (ball.x - paddlecenter) / 5 == 0) {
             return;
         }
         xSpeed = (int) (ball.x - paddlecenter) / 5;
-        System.out.println("xspeed = "+xSpeed);
+        System.out.println("xspeed = " + xSpeed);
     }
 
     public void update(Circle circleListener, SpriteBatch batch, Rectangle rectangleListener) {

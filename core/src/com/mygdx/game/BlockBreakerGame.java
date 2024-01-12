@@ -20,6 +20,7 @@ public class BlockBreakerGame extends ApplicationAdapter {
     Paddle paddle = new Paddle(120, 10, 50, 20);
     Circle circleListener;
     Rectangle rectangleListener;
+    SoundHandler game_music;
 
     @Override
     public void create() {
@@ -28,12 +29,14 @@ public class BlockBreakerGame extends ApplicationAdapter {
         shape = new ShapeRenderer();
         circleListener = new Circle();
         rectangleListener = new Rectangle();
+        game_music = new SoundHandler("glitch.ogg");
 
         block.placeBlocks();
 
         //Init objects
         paddle.initPaddleTexture();
         ball = new Ball(100, 100, 10, 3, 4);
+        game_music.loopSound(game_music.sound, 0.75f);
     }
 
     @Override

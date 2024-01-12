@@ -33,6 +33,7 @@ public class Block {
                 iterator.remove();
                 Explosion.explosionlist.add(new Explosion((int) blockListener.x, (int) blockListener.y));
                 ball.changeYDirection();
+                ball.changeXDirection(circleListener, blockListener, true);
             }
         }
     }
