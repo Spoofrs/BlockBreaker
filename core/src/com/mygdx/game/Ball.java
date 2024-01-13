@@ -56,7 +56,6 @@ public class Ball {
             return;
         }
         xSpeed = (int) (ball.x - paddlecenter) / 5;
-        System.out.println("xspeed = " + xSpeed);
     }
 
     public void update(Circle circleListener, SpriteBatch batch, Rectangle rectangleListener) {

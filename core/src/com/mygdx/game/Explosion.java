@@ -41,7 +41,7 @@ public class Explosion {
             animationFrames[index++] = tmpFrames[0][i];
         }
 
-        animation = new Animation<TextureRegion>(0.025f, animationFrames);
+        animation = new Animation<>(0.025f, animationFrames);
     }
 
     public void getExplosion(int x, int y, SpriteBatch batch, Explosion explosion) {

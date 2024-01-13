@@ -26,11 +26,23 @@ public class Block {
     }
 
     public void checkCollision(Circle circleListener, Ball ball) {
-        Iterator<Rectangle> iterator = blocks.values().iterator();
-        while (iterator.hasNext()) {
-            Rectangle blockListener = iterator.next();
+        Iterator<Rectangle> blockIterator = blocks.values().iterator();
+        while (blockIterator.hasNext()) {
+            Rectangle blockListener = blockIterator.next();
+            Iterator<Rectangle> laserIterator = Laser.laserList.values().iterator();
+            while (laserIterator.hasNext()) {
+                Rectangle laserListener = laserIterator.next();
+                if (Intersector.overlaps(blockListener, laserListener)) {
+                    Explosion.explosionlist.add(new Explosion((int) blockListener.x, (int) blockListener.y));
+                    blockIterator.remove();
+                    laserIterator.remove();
+                }
+                if (laserListener.y > Gdx.graphics.getHeight()) {
+                    laserIterator.remove();
+                }
+            }
             if (Intersector.overlaps(circleListener, blockListener)) {
-                iterator.remove();
+                blockIterator.remove();
                 Explosion.explosionlist.add(new Explosion((int) blockListener.x, (int) blockListener.y));
                 ball.changeYDirection();
                 ball.changeXDirection(circleListener, blockListener, true);

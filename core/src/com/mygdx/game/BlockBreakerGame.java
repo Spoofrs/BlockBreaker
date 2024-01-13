@@ -35,9 +35,7 @@ public class BlockBreakerGame extends ApplicationAdapter {
         circleListener = new Circle();
         rectangleListener = new Rectangle();
         game_music = new SoundHandler("glitch.ogg");
-
         block.placeBlocks();
-
         paddle.initPaddleTexture();
         ball = new Ball(100, 100, 10, 3, 4);
         game_music.loopSound(game_music.sound, 0.75f);
@@ -56,7 +54,9 @@ public class BlockBreakerGame extends ApplicationAdapter {
         batch.begin();
 
         //Laser handling
-        laser.shootLaser(renderer, ball, gameInputs, paddle);
+        laser.shootLaser(ball, gameInputs, paddle);
+
+        laser.drawLaser(renderer);
 
         //Explosion animation
         explosion.handleExplosionList(batch);

@@ -25,7 +25,6 @@ public class GameInputs implements InputProcessor {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
             if (button == Input.Buttons.LEFT) {
                 leftclicked = true;
-                System.out.println("BUTTON: "+leftclicked);
                 return true;
             }
             return false;
@@ -35,7 +34,6 @@ public class GameInputs implements InputProcessor {
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         if (button == Input.Buttons.LEFT) {
             leftclicked = false;
-            System.out.println("BUTTON: "+leftclicked);
             return true;
         }
         return false;
