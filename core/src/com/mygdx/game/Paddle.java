@@ -27,13 +27,13 @@ public class Paddle {
     }
 
     public void initPaddleTexture() {
-        paddleTexture = new Texture("paddle_sprite.png");
+        paddleTexture = new Texture("paddle.png");
     }
 
 
     public void update(Rectangle rectangleListener, SpriteBatch batch) {
         updateLocation();
         rectangleListener.set(x, y, width, height);
-        batch.draw(paddleTexture, x, y);
+        batch.draw(paddleTexture, x, y, rectangleListener.width, rectangleListener.height);
     }
 }

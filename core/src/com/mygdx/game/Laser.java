@@ -1,5 +1,8 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.mygdx.game.util.GameInputs;
@@ -29,10 +32,12 @@ public class Laser {
         }
     }
 
-    public void drawLaser(ShapeRenderer renderer) {
-        for (Rectangle laser : laserList.values()) { //@TODO add texture
+    public void drawLaser(ShapeRenderer renderer, SpriteBatch batch) {
+        Texture bullet = new Texture("bullet.png");
+        for (Rectangle laser : laserList.values()) {
+            renderer.setColor(Color.RED);
             laser.y += 10;
-            renderer.rect(laser.x, laser.y, laser.width, laser.height);
+            batch.draw(bullet, laser.x, laser.y, laser.width, laser.height);
         }
     }
 }
