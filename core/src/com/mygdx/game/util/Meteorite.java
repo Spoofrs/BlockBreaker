@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Random;
 
 public class Meteorite {
@@ -32,10 +33,18 @@ public class Meteorite {
         if (randomRoll == 1 && meteoriteHashMap.isEmpty()) { //only allow a meteorite to be called if there isn't one on screen already
             meteoriteHashMap.put(new Meteorite(spawnXLocation[meteoritePosition]), new Rectangle(spawnXLocation[meteoritePosition], Gdx.graphics.getHeight(), 40, 60));
         }
-        for (Meteorite meteorite : meteoriteHashMap.keySet()) {
-            batch.draw(meteoriteTexture, meteorite.x, meteorite.y, 40, 60);
+        for (Rectangle meteorite : meteoriteHashMap.values()) {
             meteorite.y -= 5;
-            //@TODO add iterator to remove gfx / listener when off screen
+            batch.draw(meteoriteTexture, meteorite.x, meteorite.y, 40, 60);
+            rectangleListener.set(meteorite.x, meteorite.y, 40, 40);
+        }
+        Iterator<Rectangle> meteoriteIterator = meteoriteHashMap.values().iterator();
+        while(meteoriteIterator.hasNext()) {
+            Rectangle meteoriteListener = meteoriteIterator.next();
+            if(meteoriteListener.y <= -100) { // when meteorite is off-screen we remove it from the hashmap
+                meteoriteIterator.remove();
+            }
+
         }
 
 

@@ -67,7 +67,7 @@ public class BlockBreakerGame extends ApplicationAdapter {
         batch.begin();
 
 
-        if (startGame)
+        if (!startGame)
             renderGame();
         else
             mainMenu.drawMenu(batch);

@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputProcessor;
 
 public class GameInputs implements InputProcessor {
     public boolean leftclicked;
+    public boolean rightclicked;
 
     @Override
     public boolean keyDown(int keycode) {
@@ -23,17 +24,25 @@ public class GameInputs implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-            if (button == Input.Buttons.LEFT) {
-                leftclicked = true;
-                return true;
-            }
-            return false;
+        if (button == Input.Buttons.LEFT) {
+            leftclicked = true;
+            return true;
+        }
+        if (button == Input.Buttons.RIGHT) {
+            rightclicked = true;
+            return true;
+        }
+        return false;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         if (button == Input.Buttons.LEFT) {
             leftclicked = false;
+            return true;
+        }
+        if (button == Input.Buttons.RIGHT) {
+            rightclicked = false;
             return true;
         }
         return false;
