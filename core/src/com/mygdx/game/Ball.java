@@ -58,6 +58,8 @@ public class Ball {
     public void changeXDirection(Circle ball, Rectangle rectangleListener, boolean blockCollision) {
         if (blockCollision)
             return;
+        if (ball.y < rectangleListener.y)
+            return;
         int paddlecenter = (int) (rectangleListener.x + rectangleListener.width / 2);
         if ((int) (ball.x - paddlecenter) / 5 == 0) {
             return;

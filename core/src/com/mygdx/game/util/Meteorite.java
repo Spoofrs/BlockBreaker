@@ -29,7 +29,7 @@ public class Meteorite {
         random = new Random();
         int meteoritePosition = random.nextInt(0, 8);
         int randomRoll = random.nextInt(0, 500) + 1; //@TODO balance this so its not overwhelming
-        if (randomRoll == 1) {
+        if (randomRoll == 1 && meteoriteHashMap.isEmpty()) { //only allow a meteorite to be called if there isn't one on screen already
             meteoriteHashMap.put(new Meteorite(spawnXLocation[meteoritePosition]), new Rectangle(spawnXLocation[meteoritePosition], Gdx.graphics.getHeight(), 40, 60));
         }
         for (Meteorite meteorite : meteoriteHashMap.keySet()) {

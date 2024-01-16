@@ -16,25 +16,34 @@ import com.mygdx.game.util.SoundHandler;
 public class BlockBreakerGame extends ApplicationAdapter {
 
     public static float gameclock;
+    MainMenu mainMenu;
     Meteorite meteorite;
-    Player player = new Player();
+    Player player;
     BitmapFont text;
     GameInputs gameInputs;
     SpriteBatch batch;
     ShapeRenderer renderer;
     Ball ball;
-    Explosion explosion = new Explosion();
-    Block block = new Block();
-    Paddle paddle = new Paddle(130, 30, 50, 20);
-    Laser laser = new Laser();
+    Explosion explosion;
+    Block block;
+    Paddle paddle;
+    Laser laser;
     Circle circleListener;
     Rectangle rectangleListener;
     SoundHandler game_music;
 
+    private boolean startGame;
+
     @Override
     public void create() {
+        explosion = new Explosion();
+        laser = new Laser();
+        paddle = new Paddle(130, 30, 50, 20);
+        player = new Player();
+        mainMenu = new MainMenu();
+        block = new Block();
         meteorite = new Meteorite();
-        text = new BitmapFont();
+        text = new BitmapFont(Gdx.files.internal("game-font-white.fnt"));
         gameInputs = new GameInputs();
         block.initBlockSfx();
         Gdx.input.setInputProcessor(gameInputs);
@@ -51,19 +60,34 @@ public class BlockBreakerGame extends ApplicationAdapter {
 
     @Override
     public void render() {
+        //Init Shape renderer / init spritebatch
+        Gdx.gl.glClearColor(13/255f, 8/255f, 28/255f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        renderer.begin(ShapeRenderer.ShapeType.Filled);
+        batch.begin();
+
+
+        if (startGame)
+            renderGame();
+        else
+            mainMenu.drawMenu(batch);
+
+        //End Shape renderer / SpriteBatch
+        batch.end();
+        renderer.end();
+
+    }
+
+
+    private void renderGame() {
         //Game clock
         gameclock += Gdx.graphics.getDeltaTime();
 
-        //Init Shape renderer
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        renderer.begin(ShapeRenderer.ShapeType.Filled);
-
-        //Start Spritebatch
-        batch.begin();
 
         //Player info
-        text.draw(batch, "Lives: "+player.lives, 10, 40);
-        text.draw(batch, "Score: "+player.score, 10, 20);
+        text.getData().setScale(0.5f);
+        text.draw(batch, "Lives: " + player.lives, 10, 40);
+        text.draw(batch, "Score: " + player.score, 10, 20);
 
         //Laser handling
         laser.shootLaser(ball, gameInputs, paddle);
@@ -86,9 +110,6 @@ public class BlockBreakerGame extends ApplicationAdapter {
         //Ball
         ball.updateBall(batch, paddle, gameInputs, circleListener, rectangleListener, player);
 
-        //End Shape renderer / SpriteBatch
-        batch.end();
-        renderer.end();
     }
 
 }
