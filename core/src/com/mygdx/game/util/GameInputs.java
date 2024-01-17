@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputProcessor;
 public class GameInputs implements InputProcessor {
     public boolean leftclicked;
     public boolean rightclicked;
+    public int mouseX, mouseY;
 
     @Override
     public boolean keyDown(int keycode) {
@@ -60,7 +61,9 @@ public class GameInputs implements InputProcessor {
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
-        return false;
+        mouseX = screenX;
+        mouseY = screenY;
+        return true;
     }
 
     @Override

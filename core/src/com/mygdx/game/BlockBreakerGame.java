@@ -7,9 +7,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.math.Rectangle;
 import com.mygdx.game.util.GameInputs;
-import com.mygdx.game.util.Meteorite;
 import com.mygdx.game.util.SoundHandler;
 
 
@@ -27,9 +25,8 @@ public class BlockBreakerGame extends ApplicationAdapter {
     Explosion explosion;
     Block block;
     Paddle paddle;
-    Laser laser;
+    Bullet bullet;
     Circle circleListener;
-    Rectangle rectangleListener;
     SoundHandler game_music;
 
     private boolean startGame;
@@ -37,7 +34,7 @@ public class BlockBreakerGame extends ApplicationAdapter {
     @Override
     public void create() {
         explosion = new Explosion();
-        laser = new Laser();
+        bullet = new Bullet();
         paddle = new Paddle(130, 30, 50, 20);
         player = new Player();
         mainMenu = new MainMenu();
@@ -50,7 +47,6 @@ public class BlockBreakerGame extends ApplicationAdapter {
         renderer = new ShapeRenderer();
         batch = new SpriteBatch();
         circleListener = new Circle();
-        rectangleListener = new Rectangle();
         game_music = new SoundHandler("glitch.ogg");
         block.placeBlocks();
         paddle.initPaddleTexture();
@@ -67,7 +63,7 @@ public class BlockBreakerGame extends ApplicationAdapter {
         batch.begin();
 
 
-        if (!startGame)
+        if (startGame)
             renderGame();
         else
             mainMenu.drawMenu(batch);
@@ -90,25 +86,25 @@ public class BlockBreakerGame extends ApplicationAdapter {
         text.draw(batch, "Score: " + player.score, 10, 20);
 
         //Laser handling
-        laser.shootLaser(ball, gameInputs, paddle);
+        bullet.shootLaser(ball, gameInputs, paddle);
 
-        laser.drawLaser(renderer, batch);
+        bullet.drawLaser(renderer, batch);
 
         //Explosion animation
         explosion.handleExplosionList(batch);
 
         //Blocks
         block.draw(batch);
-        block.checkCollision(circleListener, ball, player);
+        block.checkCollision(circleListener, ball, player, paddle);
 
         //Meteorite spawning
-        meteorite.spawnMeteorite(batch, rectangleListener);
+        meteorite.spawnMeteorite(batch, paddle, player, ball, gameInputs);
 
         //Paddle
-        paddle.update(rectangleListener, batch);
+        paddle.update(batch);
 
         //Ball
-        ball.updateBall(batch, paddle, gameInputs, circleListener, rectangleListener, player);
+        ball.updateBall(batch, paddle, gameInputs, circleListener, player);
 
     }
 

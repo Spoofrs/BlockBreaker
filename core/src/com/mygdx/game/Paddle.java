@@ -12,6 +12,7 @@ public class Paddle {
     int height;
     int x;
     int y;
+    public Rectangle paddleListener = new Rectangle();
     public Texture paddleTexture;
 
 
@@ -31,9 +32,9 @@ public class Paddle {
     }
 
 
-    public void update(Rectangle rectangleListener, SpriteBatch batch) {
+    public void update(SpriteBatch batch) {
         updateLocation();
-        rectangleListener.set(x, y, width, height);
-        batch.draw(paddleTexture, x, y, rectangleListener.width, rectangleListener.height);
+        paddleListener.set(x, y, width, height);
+        batch.draw(paddleTexture, x, y, paddleListener.width, paddleListener.height);
     }
 }

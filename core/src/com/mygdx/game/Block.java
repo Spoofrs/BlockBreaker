@@ -31,11 +31,11 @@ public class Block {
         this.y = y;
     }
 
-    public void checkCollision(Circle circleListener, Ball ball, Player player) {
+    public void checkCollision(Circle circleListener, Ball ball, Player player, Paddle paddle) {
         Iterator<Rectangle> blockIterator = blocks.values().iterator();
         while (blockIterator.hasNext()) {
             Rectangle blockListener = blockIterator.next();
-            Iterator<Rectangle> laserIterator = Laser.laserList.values().iterator();
+            Iterator<Rectangle> laserIterator = Bullet.laserList.values().iterator();
             while (laserIterator.hasNext()) {
                 Rectangle laserListener = laserIterator.next();
                 if (Intersector.overlaps(blockListener, laserListener)) {
@@ -56,7 +56,7 @@ public class Block {
                 blockIterator.remove();
                 Explosion.explosionlist.add(new Explosion((int) blockListener.x, (int) blockListener.y));
                 ball.changeYDirection();
-                ball.changeXDirection(circleListener, blockListener, true);
+                ball.changeXDirection(circleListener, paddle, true);
             }
         }
     }

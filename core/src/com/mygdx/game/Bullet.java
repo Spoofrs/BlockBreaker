@@ -9,16 +9,16 @@ import com.mygdx.game.util.GameInputs;
 
 import java.util.HashMap;
 
-public class Laser {
+public class Bullet {
 
     int x, y, length, height;
 
 
-    public static final HashMap<Laser, Rectangle> laserList = new HashMap<>();
+    public static final HashMap<Bullet, Rectangle> laserList = new HashMap<>();
 
-    public Laser() {}
+    public Bullet() {}
 
-    public Laser(int x, int y, int length, int height) {
+    public Bullet(int x, int y, int length, int height) {
         this.x = x;
         this.y = y;
         this.length = length;
@@ -27,7 +27,7 @@ public class Laser {
 
     public void shootLaser(Ball ball, GameInputs gameInputs, Paddle paddle) {
         if(gameInputs.leftclicked && ball.canShoot) {
-            laserList.put(new Laser(paddle.x + paddle.width / 2, 5, 50, 50), new Rectangle(paddle.x + ((float) paddle.width / 2) - 10, 20, 20, 20));
+            laserList.put(new Bullet(paddle.x + paddle.width / 2, 5, 50, 50), new Rectangle(paddle.x + ((float) paddle.width / 2) - 10, 20, 20, 20));
             ball.canShoot = false;
         }
     }

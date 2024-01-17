@@ -46,28 +46,28 @@ public class Ball {
         ySpeed = -ySpeed;
     }
 
-    public void checkCollision(Circle ball, Rectangle rectangleListener) { //check if the ball collides with the paddle
-        if (Intersector.overlaps(ball, rectangleListener)) {
+    public void checkCollision(Circle ball, Paddle paddle) { //check if the ball collides with the paddle
+        if (Intersector.overlaps(ball, paddle.paddleListener)) {
             changeYDirection();
-            changeXDirection(ball, rectangleListener, false);
+            changeXDirection(ball, paddle, false);
             canShoot = true;
             ball_paddle_collision_sfx.playSound(ball_paddle_collision_sfx.sound, 1.0f);
         }
     }
 
-    public void changeXDirection(Circle ball, Rectangle rectangleListener, boolean blockCollision) {
+    public void changeXDirection(Circle ball, Paddle paddle, boolean blockCollision) {
         if (blockCollision)
             return;
-        if (ball.y < rectangleListener.y)
+        if (ball.y < paddle.paddleListener.y)
             return;
-        int paddlecenter = (int) (rectangleListener.x + rectangleListener.width / 2);
+        int paddlecenter = (int) (paddle.paddleListener.x + paddle.paddleListener.width / 2);
         if ((int) (ball.x - paddlecenter) / 5 == 0) {
             return;
         }
         xSpeed = (int) (ball.x - paddlecenter) / 5;
     }
 
-    public void updateBall(SpriteBatch batch, Paddle paddle, GameInputs gameInputs, Circle circleListener, Rectangle rectangleListener, Player player) {
+    public void updateBall(SpriteBatch batch, Paddle paddle, GameInputs gameInputs, Circle circleListener, Player player) {
         if (gameInputs.leftclicked)
             serveBall = false;
         if (serveBall) {
@@ -80,7 +80,7 @@ public class Ball {
             Texture ballTexture = new Texture("ball.png");
             checkScreenBoundaries(player);
             circleListener.set(x, y, size);
-            checkCollision(circleListener, rectangleListener);
+            checkCollision(circleListener, paddle);
             batch.draw(ballTexture, x, y, 20, 20);
         }
     }
